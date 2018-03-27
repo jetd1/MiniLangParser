@@ -66,29 +66,29 @@ if not re.match(r"[a-zA-Z_][0-9a-zA-Z_]*", s):
 起始符号：`statements`
 
 ```
-statements		->	statement statements	
-				|	\ε
-statement		->	while_clause
-				|	expr;
-				|	;
+statements    ->   statement statements	
+              |    \ε
+statement     ->   while_clause
+              |    expr;
+              |    ;
 
-while_clause	->	\while \( expr \) while_body
-while_body		->  statement
-				|	\{ statements \}
+while_clause  ->   \while \( expr \) while_body
+while_body    ->   statement
+              |    \{ statements \}
 
-expr			->	\var \= expr
-				|	rexpr
-rexpr			->	term rexpr_tail
-rexpr_tail		->	\+ term rexpr_tail
-				| 	\- term rexpr_tail
-				|	\ε
-term			->	factor term_tail
-term_tail		->	\* factor term_tail
-				| 	\/ factor term_tail
-				|	\ε
-factor			->	\( rexpr \)
-				|	\lit
-				|	\var
+expr          ->   \var \= expr
+              |    rexpr
+rexpr         ->   term rexpr_tail
+rexpr_tail    ->   \+ term rexpr_tail
+              |    \- term rexpr_tail
+              |    \ε
+term          ->   factor term_tail
+term_tail     ->   \* factor term_tail
+              |    \/ factor term_tail
+              |    \ε
+factor        ->   \( rexpr \)
+              |    \lit
+              |    \var
 ```
 
 其中 `\XXX` 代表终结符号， `\ε` 代表空子串， `\lit` 代表字面符号， `\var` 代表变量符号， `\while` 代表 `while` 关键字。
@@ -101,27 +101,27 @@ factor			->	\( rexpr \)
 
 1. 检测到 `while` 语句，但缺少 `(` 、`)` 或表达式不合法：
 
-   ```C
+   ```c
    while ( expr )
          ^   ^  ^
    ```
 
 
-2. 右大括号不匹配：
+1. 右大括号不匹配：
 
    ```c
    while ( expr ) { statements }
                                ^
    ```
 
-3. 监测到 `statement` ，但缺少 `;` ：
+2. 监测到 `statement` ，但缺少 `;` ：
 
    ```c
    statement;
             ^
    ```
 
-4. 右括号不匹配：
+3. 右括号不匹配：
 
    ```c
    ( rexpr )
@@ -129,14 +129,14 @@ factor			->	\( rexpr \)
    ```
 
 
-5. 缺少合法右值表达式：
+1. 缺少合法右值表达式：
 
    ```c
    a + rexpr;
          ^
    ```
 
-6. 非法文件尾：即 `statements` 下降至底后，符号队列仍不为空（大多数时候与错误3或5同时发生）
+2. 非法文件尾：即 `statements` 下降至底后，符号队列仍不为空（大多数时候与错误3或5同时发生）
 
 以上错误均会将具体错误信息打印至标准错误流，并设置错误标记，退出语法分析。
 
@@ -150,7 +150,7 @@ factor			->	\( rexpr \)
 
 以下列输入为例（`./test_samples/simple_test_2.c`）：
 
-```C
+```c
 a = b = 1;
 
 while (a) {
@@ -242,11 +242,11 @@ statements
 
 并给出图片输出：
 
-![](simple_test_3.png)
+![](./test_samples/simple_test_3.png)
 
 若给出错误输入，例如：
 
-```Bash
+```bash
 a + b
 
 gr: Expect ';' after lexeme b
@@ -305,6 +305,4 @@ gr: Syntactic analysis failed
 3. 若无法安装第三方模块，可使用 `./code/deprecated/test.py` 中的未维护版本进行测试，该版本包括一个手写的语法树类以及相关打印函数，但不包含从文件读入、输出图片、错误提示等功能，使用方法：
 
    `python ./test.py`
-
-
 

@@ -104,6 +104,7 @@
         <option value="$PROJECT_DIR$/grammar_pretty.py" />
         <option value="$PROJECT_DIR$/lexeme.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/../MiniLangParser/test.py" />
       </list>
     </option>
   </component>
