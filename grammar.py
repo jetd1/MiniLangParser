@@ -10,7 +10,7 @@ def check_grammar(tokens):
     # Empty sequence
     if len(tokens) == 0:
         print("gr: Empty token sequence!", file=sys.stderr)
-        return False
+        return False, None
 
     # Ending guard
     tokens.append(Lexeme(LexType.eof, "eof"))
